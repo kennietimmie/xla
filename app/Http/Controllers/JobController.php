@@ -119,7 +119,7 @@ class JobController extends Controller
             'address' => 'required'
         ]);
 
-        $job = Applicant::create($request->only(['email', 'firstname', 'lastname', 'resume_url', 'address']));
+        $applicant = Applicant::create($request->only(['email', 'firstname', 'lastname', 'resume_url', 'address']));
 
         return response()->json(['success' => 'Application successful'], 201);
     }
