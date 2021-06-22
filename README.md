@@ -10,8 +10,13 @@
 ## App Documentation
 
 For creating jobs POST(api/job/store)(title,unique_id,decription,category,level)
+
 Fetch all jobs GET(api/jobs)(returns an array of json of all jobs)
+
 Fetch a single job GET(api/job/{unique_id})T(job unique_id, returns a json of the specific resource)
+
 Fetch job candidates GET(api/job/{unique_id}/candidate)(returns an array of json of all candidate)
+
 Fetch job candidates GET(api/job/{unique_id}/candidate)(returns an array of json of all candidate)
+
 Apply for a job POST(api/job/{unique_id}/apply)(email, firstname, lastname, resume_url, address)
