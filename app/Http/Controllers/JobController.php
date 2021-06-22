@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applicant;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,7 @@ class JobController extends Controller
     public function index()
     {
         $jobs = Job::where('user_id', auth()->user()->id);
-
-        response()->json($jobs);
+        response()->json($jobs, 200);
     }
 
     /**
@@ -36,14 +36,23 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
         $request->validate([
             'title' => 'required',
-            'unique_id' => 'required|unique:jobs,unique_id|numeric',
+            'unique_id' => 'required|unique:jobs,unique_id|alpha_num',
             'description' => 'required',
             'category' => 'required',
             'level' => 'required|numeric'
         ]);
+
+        $job = Job::create([
+            'title' => $request->title,
+            'unique_id' => $request->unique_id,
+            'description' => $request->description,
+            'category' => $request->category,
+            'level' => $request->level
+        ]);
+
+        return response()->json($job, 201);
     }
 
     /**
@@ -52,9 +61,10 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($unique_id)
     {
-        //
+        $job = Job::find($unique_id);
+        return response()->json($job, 200);
     }
 
     /**
@@ -74,7 +84,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $unique_id)
     {
     }
 
@@ -94,15 +104,23 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function candidates($id)
+    public function candidates($unique_id)
     {
-        $job = Job::find($id);
-        if($job){
-            return response()->json($job);
-        }
+        $job = Job::find($unique_id);
+            return response()->json($job, 200);
     }
 
     public function apply(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'resume_url' => 'required|url',
+            'address' => 'required'
+        ]);
 
+        $job = Applicant::create($request->only(['email', 'firstname', 'lastname', 'resume_url', 'address']));
+
+        return response()->json(['success' => 'Application successful'], 201);
     }
 }

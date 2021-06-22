@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('job', [JobController::class, 'store'])->middleware('auth')->name('job.store');
 Route::get('jobs', [JobController::class, 'index'])->middleware('auth')->name('job.index');
 Route::get('job/create', [JobController::class, 'index'])->middleware('auth')->name('job.create');
-Route::get('job/{id}', [JobController::class, 'show'])->middleware('auth')->name('job.show');
-Route::get('job/{id}/candidates', [JobController::class, 'candidates'])->middleware('auth')->name('job.candidates');
+Route::get('job/{unique_id}', [JobController::class, 'show'])->middleware('auth')->name('job.show');
+Route::get('job/{unique_id}/candidates', [JobController::class, 'candidates'])->middleware('auth')->name('job.candidates');
 
-Route::post('job/{id}/apply', [JobController::class, 'apply'])->name('job.apply');
+Route::post('job/{unique_id}/apply', [JobController::class, 'apply'])->name('job.apply');
